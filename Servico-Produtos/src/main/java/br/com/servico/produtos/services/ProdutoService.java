@@ -34,11 +34,11 @@ public class ProdutoService {
 		return toDTO(produto);
 	}
 	
-	public void adicionarProduto(ProdutoRequestDTO dto) {
+	public Produto adicionarProduto(ProdutoRequestDTO dto) {
 		
 		Produto produto = new Produto(null, dto.nome(), dto.descricao(), dto.preco());
 		
-		produtoRepository.save(produto);
+		return produtoRepository.save(produto);
 	}
 	
 	public Produto atualizarProduto(Long id, ProdutoRequestDTO dto) {
