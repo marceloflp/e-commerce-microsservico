@@ -22,6 +22,8 @@ public class Produto implements Serializable{
 	private String descricao;
 	private Double preco;
 	
+	public Produto() {}
+	
 	public Produto(Long idProduto, String nomeProduto, String descricao, Double preco) {
 		super();
 		this.idProduto = idProduto;

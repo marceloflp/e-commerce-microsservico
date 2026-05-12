@@ -20,6 +20,8 @@ public class Categoria implements Serializable{
 	private Long idCategoria;
 	private String nome;
 	
+	public Categoria() {}
+	
 	public Categoria(Long idCategoria, String nome) {
 		super();
 		this.idCategoria = idCategoria;
