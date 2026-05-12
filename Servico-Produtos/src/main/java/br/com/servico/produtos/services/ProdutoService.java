@@ -45,7 +45,7 @@ public class ProdutoService {
 		try {
 			Produto produto = produtoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Produto não encontrado"));
 			updateProduto(dto, produto);
-			return produto;
+			return produtoRepository.save(produto);
 		} catch (EntityNotFoundException e) {
             throw new EntityNotFoundException("Produto não encotrado!");
         }
