@@ -36,7 +36,7 @@ public class CategoriaService {
 	
 	public Categoria adicionarCategoria(CategoriaRequestDTO dto) {
 		
-		Categoria categoria = new Categoria(null, dto.nome());
+		Categoria categoria = new Categoria(null, dto.nome(), null);
 		
 		return categoriaRepository.save(categoria);
 	}

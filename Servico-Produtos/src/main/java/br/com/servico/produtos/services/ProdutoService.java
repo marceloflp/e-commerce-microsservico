@@ -5,9 +5,12 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import br.com.servico.produtos.dtos.CategoriaResponseDTO;
 import br.com.servico.produtos.dtos.ProdutoRequestDTO;
 import br.com.servico.produtos.dtos.ProdutoResponseDTO;
+import br.com.servico.produtos.entities.Categoria;
 import br.com.servico.produtos.entities.Produto;
+import br.com.servico.produtos.repositories.CategoriaRepository;
 import br.com.servico.produtos.repositories.ProdutoRepository;
 import jakarta.persistence.EntityNotFoundException;
 
@@ -15,10 +18,12 @@ import jakarta.persistence.EntityNotFoundException;
 public class ProdutoService {
 
 	private final ProdutoRepository produtoRepository;
+	private final CategoriaRepository categoriasRepository;
 
-	public ProdutoService(ProdutoRepository produtoRepository) {
+	public ProdutoService(ProdutoRepository produtoRepository, CategoriaRepository categoriaRepository) {
 		super();
 		this.produtoRepository = produtoRepository;
+		this.categoriasRepository = categoriaRepository;
 	}
 	
 	public List<ProdutoResponseDTO> buscarTodos(){
@@ -35,8 +40,10 @@ public class ProdutoService {
 	}
 	
 	public Produto adicionarProduto(ProdutoRequestDTO dto) {
+		Categoria categoria = categoriasRepository.findById(dto.idCategoria())
+				.orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"));
 		
-		Produto produto = new Produto(null, dto.nome(), dto.descricao(), dto.preco());
+		Produto produto = new Produto(null, dto.nome(), dto.descricao(), dto.preco(), categoria);
 		
 		return produtoRepository.save(produto);
 	}
@@ -53,9 +60,14 @@ public class ProdutoService {
 	}
 	
 	private void updateProduto(ProdutoRequestDTO dto, Produto produto) {
+
+		Categoria categoria = categoriasRepository.findById(dto.idCategoria())
+				.orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"));
+		
 		produto.setNomeProduto(dto.nome());
 		produto.setDescricao(dto.descricao());
 		produto.setPreco(dto.preco());
+		produto.setCategoria(categoria);
 	}
 	
 	public void deletarProduto(Long id) {
@@ -71,7 +83,8 @@ public class ProdutoService {
 	}
 	
 	public ProdutoResponseDTO toDTO(Produto produto) {
-		return new ProdutoResponseDTO(produto.getIdProduto(), produto.getNomeProduto(), produto.getDescricao(), produto.getPreco());
+		CategoriaResponseDTO categoriaDTO = new CategoriaResponseDTO(produto.getCategoria().getIdCategoria(), produto.getCategoria().getNome()); 
+		return new ProdutoResponseDTO(produto.getIdProduto(), produto.getNomeProduto(), produto.getDescricao(), produto.getPreco(), categoriaDTO);
 	}
 	
 }

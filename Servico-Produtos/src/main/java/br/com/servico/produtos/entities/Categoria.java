@@ -1,12 +1,15 @@
 package br.com.servico.produtos.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -20,12 +23,17 @@ public class Categoria implements Serializable{
 	private Long idCategoria;
 	private String nome;
 	
+	@OneToMany(mappedBy = "categoria")
+	private List<Produto> produtos = new ArrayList<>();
+	
+	
 	public Categoria() {}
 	
-	public Categoria(Long idCategoria, String nome) {
+	public Categoria(Long idCategoria, String nome, List<Produto> produtos) {
 		super();
 		this.idCategoria = idCategoria;
 		this.nome = nome;
+		this.produtos = produtos;
 	}
 	
 	public Long getIdCategoria() {
@@ -45,6 +53,14 @@ public class Categoria implements Serializable{
 		return Objects.hash(idCategoria);
 	}
 	
+	public List<Produto> getProdutos() {
+		return produtos;
+	}
+
+	public void setProdutos(List<Produto> produtos) {
+		this.produtos = produtos;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
