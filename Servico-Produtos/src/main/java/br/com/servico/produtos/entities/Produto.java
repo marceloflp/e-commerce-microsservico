@@ -23,6 +23,7 @@ public class Produto implements Serializable{
 	private String nomeProduto;
 	private String descricao;
 	private Double preco;
+	private Integer quantidade;
 	
 	@ManyToOne
 	@JoinColumn(name = "categoria_id", nullable =true)
@@ -30,13 +31,14 @@ public class Produto implements Serializable{
 	
 	public Produto() {}
 	
-	public Produto(Long idProduto, String nomeProduto, String descricao, Double preco, Categoria categoria) {
+	public Produto(Long idProduto, String nomeProduto, String descricao, Double preco, Integer quantidade, Categoria categoria) {
 		super();
 		this.idProduto = idProduto;
 		this.nomeProduto = nomeProduto;
 		this.descricao = descricao;
 		this.preco = preco;
 		this.categoria = categoria;
+		this.quantidade = quantidade;
 	}
 
 	public Long getIdProduto() {
@@ -77,6 +79,14 @@ public class Produto implements Serializable{
 
 	public void setCategoria(Categoria categoria) {
 		this.categoria = categoria;
+	}
+	
+	public Integer getQuantidade() {
+		return quantidade;
+	}
+
+	public void setQuantidade(Integer quantidade) {
+		this.quantidade = quantidade;
 	}
 
 	@Override

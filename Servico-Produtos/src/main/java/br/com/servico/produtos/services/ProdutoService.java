@@ -57,14 +57,15 @@ public class ProdutoService {
 		Categoria categoria = categoriasRepository.findById(dto.idCategoria())
 				.orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"));
 		
-		Produto produto = new Produto(null, dto.nome(), dto.descricao(), dto.preco(), categoria);
+		Produto produto = new Produto(null, dto.nome(), dto.descricao(), dto.preco(), dto.quantidade(), categoria);
 	
 		
 		produtoRepository.save(produto);
 		
 		CategoriaResponseDTO categoriaDTO = new CategoriaResponseDTO(produto.getCategoria().getIdCategoria(), produto.getCategoria().getNome());
 		
-		ProdutoResponseDTO produtoDTO = new ProdutoResponseDTO(produto.getIdProduto(), produto.getNomeProduto(), produto.getDescricao(), produto.getPreco(), categoriaDTO);
+		ProdutoResponseDTO produtoDTO = new ProdutoResponseDTO(produto.getIdProduto(), produto.getNomeProduto(), 
+				produto.getDescricao(), produto.getPreco(), produto.getQuantidade(), categoriaDTO);
 		
 		logger.info("Produto criado: {}", produtoDTO);
 		
@@ -100,6 +101,7 @@ public class ProdutoService {
 		produto.setDescricao(dto.descricao());
 		produto.setPreco(dto.preco());
 		produto.setCategoria(categoria);
+		produto.setQuantidade(dto.quantidade());
 	}
 	
 	public void deletarProduto(Long id) {
@@ -118,7 +120,8 @@ public class ProdutoService {
 	
 	public ProdutoResponseDTO toDTO(Produto produto) {
 		CategoriaResponseDTO categoriaDTO = new CategoriaResponseDTO(produto.getCategoria().getIdCategoria(), produto.getCategoria().getNome()); 
-		return new ProdutoResponseDTO(produto.getIdProduto(), produto.getNomeProduto(), produto.getDescricao(), produto.getPreco(), categoriaDTO);
+		return new ProdutoResponseDTO(produto.getIdProduto(), produto.getNomeProduto(), produto.getDescricao(), 
+				produto.getPreco(), produto.getQuantidade(), categoriaDTO);
 	}
 	
 }

@@ -1,5 +1,5 @@
 package br.com.servico.produtos.dtos;
 
-public record ProdutoResponseDTO(Long id, String nome, String descricao, Double preco, CategoriaResponseDTO categoria) {
+public record ProdutoResponseDTO(Long id, String nome, String descricao, Double preco, Integer quantidade, CategoriaResponseDTO categoria) {
 
 }
