@@ -34,11 +34,11 @@ public class CategoriaService {
 		return toDTO(categoria);
 	}
 	
-	public void adicionarCategoria(CategoriaRequestDTO dto) {
+	public Categoria adicionarCategoria(CategoriaRequestDTO dto) {
 		
 		Categoria categoria = new Categoria(null, dto.nome());
 		
-		categoriaRepository.save(categoria);
+		return categoriaRepository.save(categoria);
 	}
 	
 	public Categoria atualizarCategoria(Long id, CategoriaRequestDTO dto) {
