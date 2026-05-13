@@ -10,6 +10,7 @@ import br.com.servico.produtos.dtos.ProdutoRequestDTO;
 import br.com.servico.produtos.dtos.ProdutoResponseDTO;
 import br.com.servico.produtos.entities.Categoria;
 import br.com.servico.produtos.entities.Produto;
+import br.com.servico.produtos.producer.ProdutoProducer;
 import br.com.servico.produtos.repositories.CategoriaRepository;
 import br.com.servico.produtos.repositories.ProdutoRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -19,11 +20,13 @@ public class ProdutoService {
 
 	private final ProdutoRepository produtoRepository;
 	private final CategoriaRepository categoriasRepository;
+	private final ProdutoProducer produtoProducer;
 
-	public ProdutoService(ProdutoRepository produtoRepository, CategoriaRepository categoriaRepository) {
+	public ProdutoService(ProdutoRepository produtoRepository, CategoriaRepository categoriaRepository, ProdutoProducer produtoProducer) {
 		super();
 		this.produtoRepository = produtoRepository;
 		this.categoriasRepository = categoriaRepository;
+		this.produtoProducer = produtoProducer;
 	}
 	
 	public List<ProdutoResponseDTO> buscarTodos(){
@@ -44,8 +47,17 @@ public class ProdutoService {
 				.orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada"));
 		
 		Produto produto = new Produto(null, dto.nome(), dto.descricao(), dto.preco(), categoria);
+	
 		
-		return produtoRepository.save(produto);
+		produtoRepository.save(produto);
+		
+		CategoriaResponseDTO categoriaDTO = new CategoriaResponseDTO(produto.getCategoria().getIdCategoria(), produto.getCategoria().getNome());
+		
+		ProdutoResponseDTO Produtodto = new ProdutoResponseDTO(produto.getIdProduto(), produto.getNomeProduto(), produto.getDescricao(), produto.getPreco(), categoriaDTO);
+		
+		produtoProducer.enviarProdutoCriado(Produtodto);
+		
+		return produto;
 	}
 	
 	public Produto atualizarProduto(Long id, ProdutoRequestDTO dto) {
