@@ -1,4 +1,4 @@
-package com.servico.itemPedidos.services;
+package com.servico.pedidos.services;
 
 import java.util.List;
 import java.util.stream.Collectors;
