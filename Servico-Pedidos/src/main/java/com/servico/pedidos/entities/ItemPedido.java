@@ -1,6 +1,7 @@
 package com.servico.pedidos.entities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,12 +20,12 @@ public class ItemPedido implements Serializable{
 	private Long idItem;
 	private Long idProduto;
 	private String nomeProduto;
-	private Double precoProduto;
+	private BigDecimal precoProduto;
 	private Integer quantidade;
 	
 	public ItemPedido() {}
 
-	public ItemPedido(Long idItem, Long idProduto, String nomeProduto, Double precoProduto, Integer quantidade) {
+	public ItemPedido(Long idItem, Long idProduto, String nomeProduto, BigDecimal precoProduto, Integer quantidade) {
 		super();
 		this.idItem = idItem;
 		this.idProduto = idProduto;
@@ -57,11 +58,11 @@ public class ItemPedido implements Serializable{
 		this.nomeProduto = nomeProduto;
 	}
 
-	public Double getPrecoProduto() {
+	public BigDecimal getPrecoProduto() {
 		return precoProduto;
 	}
 
-	public void setPrecoProduto(Double precoProduto) {
+	public void setPrecoProduto(BigDecimal precoProduto) {
 		this.precoProduto = precoProduto;
 	}
 

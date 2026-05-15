@@ -1,6 +1,7 @@
 package com.servico.pedidos.entities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Objects;
 
@@ -26,11 +27,11 @@ public class Pedido implements Serializable{
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate dataPedido;
 	private Status status;
-	private Double valorTotal;
+	private BigDecimal valorTotal;
 	
 	public Pedido() {}
 	
-	public Pedido(Long idPedido, String nomeCliente, LocalDate dataPedido, Status status, Double valorTotal) {
+	public Pedido(Long idPedido, String nomeCliente, LocalDate dataPedido, Status status, BigDecimal valorTotal) {
 		super();
 		this.idPedido = idPedido;
 		this.nomeCliente = nomeCliente;
@@ -63,10 +64,10 @@ public class Pedido implements Serializable{
 	public void setStatus(Status status) {
 		this.status = status;
 	}
-	public Double getValorTotal() {
+	public BigDecimal getValorTotal() {
 		return valorTotal;
 	}
-	public void setValorTotal(Double valorTotal) {
+	public void setValorTotal(BigDecimal valorTotal) {
 		this.valorTotal = valorTotal;
 	}
 	
