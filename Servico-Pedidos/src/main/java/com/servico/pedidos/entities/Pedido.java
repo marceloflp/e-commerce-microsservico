@@ -3,15 +3,20 @@ package com.servico.pedidos.entities;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.servico.pedidos.enums.Status;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -29,15 +34,20 @@ public class Pedido implements Serializable{
 	private Status status;
 	private BigDecimal valorTotal;
 	
+	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+	@JsonManagedReference
+	private List<ItemPedido> itens = new ArrayList<>();
+	
 	public Pedido() {}
 	
-	public Pedido(Long idPedido, String nomeCliente, LocalDate dataPedido, Status status, BigDecimal valorTotal) {
+	public Pedido(Long idPedido, String nomeCliente, LocalDate dataPedido, Status status, BigDecimal valorTotal, List<ItemPedido> itens) {
 		super();
 		this.idPedido = idPedido;
 		this.nomeCliente = nomeCliente;
 		this.dataPedido = dataPedido;
 		this.status = status;
 		this.valorTotal = valorTotal;
+		this.itens = itens;
 	}
 	
 	public Long getIdPedido() {
@@ -69,6 +79,12 @@ public class Pedido implements Serializable{
 	}
 	public void setValorTotal(BigDecimal valorTotal) {
 		this.valorTotal = valorTotal;
+	}
+	public List<ItemPedido> getItens() {
+		return itens;
+	}
+	public void setItens(List<ItemPedido> itens) {
+		this.itens = itens;
 	}
 	
 	@Override

@@ -2,11 +2,16 @@ package com.servico.pedidos.entities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -23,15 +28,21 @@ public class ItemPedido implements Serializable{
 	private BigDecimal precoProduto;
 	private Integer quantidade;
 	
+	@ManyToOne
+	@JoinColumn(name = "pedido_id")
+	@JsonBackReference
+	private Pedido pedido;
+	
 	public ItemPedido() {}
 
-	public ItemPedido(Long idItem, Long idProduto, String nomeProduto, BigDecimal precoProduto, Integer quantidade) {
+	public ItemPedido(Long idItem, Long idProduto, String nomeProduto, BigDecimal precoProduto, Integer quantidade, Pedido pedido) {
 		super();
 		this.idItem = idItem;
 		this.idProduto = idProduto;
 		this.nomeProduto = nomeProduto;
 		this.precoProduto = precoProduto;
 		this.quantidade = quantidade;
+		this.pedido = pedido;
 	}
 
 	public Long getIdItem() {
@@ -73,7 +84,30 @@ public class ItemPedido implements Serializable{
 	public void setQuantidade(Integer quantidade) {
 		this.quantidade = quantidade;
 	}
-	
-	
+
+	public Pedido getPedido() {
+		return pedido;
+	}
+
+	public void setPedido(Pedido pedido) {
+		this.pedido = pedido;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(idItem);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ItemPedido other = (ItemPedido) obj;
+		return Objects.equals(idItem, other.idItem);
+	}
 
 }
