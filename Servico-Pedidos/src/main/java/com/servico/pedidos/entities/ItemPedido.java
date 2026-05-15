@@ -110,4 +110,10 @@ public class ItemPedido implements Serializable{
 		return Objects.equals(idItem, other.idItem);
 	}
 
+	@Override
+	public String toString() {
+		return "ItemPedido [idItem=" + idItem + ", idProduto=" + idProduto + ", nomeProduto=" + nomeProduto
+				+ ", precoProduto=" + precoProduto + ", quantidade=" + quantidade +"]";
+	}
+	
 }

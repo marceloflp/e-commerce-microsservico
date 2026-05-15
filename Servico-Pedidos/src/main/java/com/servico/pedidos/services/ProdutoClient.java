@@ -16,7 +16,7 @@ public class ProdutoClient {
 
         return webClient
                 .get()
-                .uri("http://localhost:8080/produtos/buscarPorId/id/" + id)
+                .uri("http://localhost:8080/api/produtos/buscarPorId/id/" + id)
                 .retrieve()
                 .bodyToMono(ProdutoResponseDTO.class)
                 .block();

@@ -1,6 +1,7 @@
 package br.com.servico.produtos.entities;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 import jakarta.persistence.Entity;
@@ -22,7 +23,7 @@ public class Produto implements Serializable{
 	private Long idProduto;
 	private String nomeProduto;
 	private String descricao;
-	private Double preco;
+	private BigDecimal preco;
 	private Integer estoque;
 	
 	@ManyToOne
@@ -31,7 +32,7 @@ public class Produto implements Serializable{
 	
 	public Produto() {}
 	
-	public Produto(Long idProduto, String nomeProduto, String descricao, Double preco, Integer estoque, Categoria categoria) {
+	public Produto(Long idProduto, String nomeProduto, String descricao, BigDecimal preco, Integer estoque, Categoria categoria) {
 		super();
 		this.idProduto = idProduto;
 		this.nomeProduto = nomeProduto;
@@ -65,11 +66,11 @@ public class Produto implements Serializable{
 		this.descricao = descricao;
 	}
 
-	public Double getPreco() {
+	public BigDecimal getPreco() {
 		return preco;
 	}
 
-	public void setPreco(Double preco) {
+	public void setPreco(BigDecimal preco) {
 		this.preco = preco;
 	}
 	

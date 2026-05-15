@@ -77,9 +77,11 @@ public class PedidoService {
 
 	                ItemPedido item = new ItemPedido();
 
-	                item.setNomeProduto(produto.nomeProduto());
+	                item.setNomeProduto(produto.nome());
 	                item.setPrecoProduto(produto.preco());
 	                item.setQuantidade(itemDTO.quantidade());
+	                
+	                item.setIdProduto(produto.id());	
 
 	                item.setPedido(pedido);
 	                
