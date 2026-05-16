@@ -18,6 +18,7 @@ import com.servico.pedidos.entities.ItemPedido;
 import com.servico.pedidos.entities.Pedido;
 import com.servico.pedidos.events.ItemPedidoEventDTO;
 import com.servico.pedidos.events.PedidoCriadoEvent;
+import com.servico.pedidos.producer.PedidoProducer;
 import com.servico.pedidos.repositories.ItemPedidoRepository;
 import com.servico.pedidos.repositories.PedidoRepository;
 
@@ -31,12 +32,14 @@ public class PedidoService {
 	private final PedidoRepository pedidoRepository;
 	private final ProdutoClient produtoClient;
 	private final ItemPedidoRepository itemPedido;
+	private final PedidoProducer producer;
 
-	public PedidoService(PedidoRepository pedidoRepository, ProdutoClient client, ItemPedidoRepository itemPedidoRepository) {
+	public PedidoService(PedidoRepository pedidoRepository, ProdutoClient client, ItemPedidoRepository itemPedidoRepository, PedidoProducer producer) {
 		super();
 		this.pedidoRepository = pedidoRepository;
 		this.produtoClient = client;
 		this.itemPedido = itemPedidoRepository;
+		this.producer = producer;
 	}
 	
 	public List<PedidoResponseDTO> buscarTodos(){
@@ -117,10 +120,7 @@ public class PedidoService {
 	    );
 	    
 	    //Enviar aqui abaixo
-	    /*
-	     * 
-	     * 
-	     */
+	    producer.enviarPedidoCriado(evento);
 	    
 
 	    logger.info("Pedido criado: {}", pedidoSalvo);
