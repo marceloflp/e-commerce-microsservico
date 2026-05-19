@@ -24,13 +24,11 @@ public class ProdutoService {
 
 	private final ProdutoRepository produtoRepository;
 	private final CategoriaRepository categoriasRepository;
-	private final ProdutoProducer produtoProducer;
 
-	public ProdutoService(ProdutoRepository produtoRepository, CategoriaRepository categoriaRepository, ProdutoProducer produtoProducer) {
+	public ProdutoService(ProdutoRepository produtoRepository, CategoriaRepository categoriaRepository) {
 		super();
 		this.produtoRepository = produtoRepository;
 		this.categoriasRepository = categoriaRepository;
-		this.produtoProducer = produtoProducer;
 	}
 	
 	public List<ProdutoResponseDTO> buscarTodos(){
@@ -68,8 +66,6 @@ public class ProdutoService {
 				produto.getDescricao(), produto.getPreco(), produto.getEstoque(), categoriaDTO);
 		
 		logger.info("Produto criado: {}", produtoDTO);
-		
-		produtoProducer.enviarProdutoCriado(produtoDTO);
 		
 		return produto;
 	}

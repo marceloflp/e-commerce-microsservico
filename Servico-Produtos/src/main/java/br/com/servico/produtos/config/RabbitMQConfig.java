@@ -21,6 +21,7 @@ public class RabbitMQConfig {
 
     @Value("${rabbitmq.routing-key}")
     private String routingKey;
+    
 	
     @Bean
     public Queue produtoQueue() {
@@ -30,6 +31,11 @@ public class RabbitMQConfig {
     @Bean
     public DirectExchange produtoExchange() {
         return new DirectExchange(exchangeName);
+    }
+    
+    @Bean
+    public Queue pedidoQueue() {
+        return new Queue(queueName, true);
     }
 
     @Bean
