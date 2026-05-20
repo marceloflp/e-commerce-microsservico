@@ -33,6 +33,7 @@ public class Pedido implements Serializable{
 	private LocalDate dataPedido;
 	private Status status;
 	private BigDecimal valorTotal;
+	private String emailNotificacao;
 	
 	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
 	@JsonManagedReference
@@ -40,7 +41,8 @@ public class Pedido implements Serializable{
 	
 	public Pedido() {}
 	
-	public Pedido(Long idPedido, String nomeCliente, LocalDate dataPedido, Status status, BigDecimal valorTotal, List<ItemPedido> itens) {
+	public Pedido(Long idPedido, String nomeCliente, LocalDate dataPedido, Status status, 
+			BigDecimal valorTotal, List<ItemPedido> itens, String emailNotificacao) {
 		super();
 		this.idPedido = idPedido;
 		this.nomeCliente = nomeCliente;
@@ -48,6 +50,7 @@ public class Pedido implements Serializable{
 		this.status = status;
 		this.valorTotal = valorTotal;
 		this.itens = itens;
+		this.emailNotificacao = emailNotificacao;
 	}
 	
 	public Long getIdPedido() {
@@ -87,6 +90,14 @@ public class Pedido implements Serializable{
 		this.itens = itens;
 	}
 	
+	public String getEmailNotificacao() {
+		return emailNotificacao;
+	}
+
+	public void setEmailNotificacao(String emailNotificacao) {
+		this.emailNotificacao = emailNotificacao;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(idPedido);

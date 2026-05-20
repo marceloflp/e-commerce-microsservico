@@ -104,7 +104,7 @@ public class PedidoService {
 
 	    Pedido pedidoSalvo = pedidoRepository.save(pedido);
 	    
-	    //Montar para enviar para as filas "pedido.criado" e "estoque.fila"
+	    //Montar para enviar para as filas
 	    PedidoCriadoEvent evento = new PedidoCriadoEvent(
 
 	            pedidoSalvo.getIdPedido(),
@@ -116,7 +116,8 @@ public class PedidoService {
 	                            item.idProduto(),
 	                            item.quantidade()
 	                    ))
-	                    .toList()
+	                    .toList(),
+	            pedidoSalvo.getEmailNotificacao()
 	    );
 	    
 	    //Enviar aqui abaixo
@@ -178,7 +179,7 @@ public class PedidoService {
 				}).toList();
 		
 		return new PedidoResponseDTO(pedido.getIdPedido(), pedido.getNomeCliente(), pedido.getDataPedido(), 
-				pedido.getStatus(), pedido.getValorTotal(), itens);
+				pedido.getStatus(), pedido.getValorTotal(), itens, pedido.getEmailNotificacao());
 	}
 	
 }

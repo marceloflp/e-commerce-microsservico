@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.servico.pedidos.enums.Status;
 
-public record PedidoResponseDTO(Long idPedido, String nomeCliente, LocalDate dataPedido, Status status,  BigDecimal valorTotal, List<ItemPedidoResponseDTO> itens) {
+public record PedidoResponseDTO(Long idPedido, String nomeCliente, LocalDate dataPedido, Status status,  
+		BigDecimal valorTotal, List<ItemPedidoResponseDTO> itens, String emailNotificacao) {
 
 }
