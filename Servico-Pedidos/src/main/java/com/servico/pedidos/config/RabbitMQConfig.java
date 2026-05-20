@@ -21,6 +21,12 @@ public class RabbitMQConfig {
 
     @Value("${rabbitmq.routing-key}")
     private String routingKey;
+    
+    @Value("${rabbitmq.queue.notificacao}")
+    private String queueNameNotificacao;
+
+    @Value("${rabbitmq.notificacao.routing-key}")
+    private String routingKeyNotificacao;
 	
     @Bean
     public Queue pedidoQueue() {
@@ -31,6 +37,11 @@ public class RabbitMQConfig {
     public DirectExchange pedidoExchange() {
         return new DirectExchange(exchangeName);
     }
+    
+    @Bean
+    public Queue notificacaoQueue() {
+        return new Queue(queueNameNotificacao, true);
+    }
 
     @Bean
     public Binding pedidoBinding(Queue pedidoQueue, DirectExchange pedidoExchange) {
@@ -38,6 +49,14 @@ public class RabbitMQConfig {
                 .bind(pedidoQueue)
                 .to(pedidoExchange)
                 .with(routingKey);
+    }
+    
+    @Bean
+    public Binding notificacaoBinding(Queue notificacaoQueue, DirectExchange pedidoExchange) {
+        return BindingBuilder
+                .bind(notificacaoQueue)
+                .to(pedidoExchange)
+                .with(routingKeyNotificacao);
     }
 
     @Bean

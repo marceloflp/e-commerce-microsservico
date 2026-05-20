@@ -19,6 +19,9 @@ public class PedidoProducer {
 	@Value("${rabbitmq.routing-key}")
 	private String routingKey;
 
+    @Value("${rabbitmq.notificacao.routing-key}")
+    private String routingKeyNotificacao;
+
 	public PedidoProducer(RabbitTemplate rabbitTemplate) {
 		super();
 		this.rabbitTemplate = rabbitTemplate;
@@ -30,7 +33,10 @@ public class PedidoProducer {
         
         try {
             rabbitTemplate.convertAndSend(exchangeName, routingKey, obj);
-            logger.info("Mensagem enviada com sucesso!");
+            logger.info("1- Mensagem enviada para fila de pedidos com sucesso!");
+            
+            rabbitTemplate.convertAndSend(exchangeName, routingKeyNotificacao, obj);
+            logger.info("2- Mensagem enviada para fila de notificao com sucesso!");
         } catch (Exception e) {
             logger.error("Erro ao enviar mensagem: ", e);
             throw e;
