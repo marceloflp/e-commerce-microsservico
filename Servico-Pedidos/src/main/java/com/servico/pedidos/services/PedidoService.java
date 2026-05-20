@@ -67,6 +67,7 @@ public class PedidoService {
 	    pedido.setNomeCliente(dto.nomeCliente());
 	    pedido.setStatus(dto.status());
 	    pedido.setDataPedido(dto.dataPedido());
+	    pedido.setEmailNotificacao(dto.emailNotificacao());
 	    
 	  //Map de ID e quantidade de produtos para enviar para o serviço de produto para atualizar estoque
 	    Map<Long, Integer> produtosEstoques = new HashMap<>();
