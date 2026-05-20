@@ -41,6 +41,14 @@ Responsável por receber e processar os pedidos realizados pelos clientes. Conso
 
 ---
 
+### 📧 Serviço de Notificação (`Servico-Notificacao`)
+
+Responsável por enviar e-mail para o cliente após a confirmação da compra dos pedidos.
+**Principail responsabilidade:**
+- Enviar notificação via e-mail após finalizar do pedido
+
+---
+
 ## 🛠️ Tecnologias Utilizadas
 
 | Tecnologia | Descrição |
