@@ -1,6 +1,6 @@
 # 🛒 E-Commerce Microsserviços
 
-Sistema de e-commerce desenvolvido com arquitetura de microsserviços em Java, composto por dois serviços independentes que se comunicam entre si para gerenciar produtos e pedidos.
+Sistema de e-commerce desenvolvido com arquitetura de microsserviços em Java, composto por três serviços independentes que se comunicam entre si para gerenciar produtos e pedidos.
 
 ---
 
@@ -10,6 +10,7 @@ O projeto é dividido em dois microsserviços principais, cada um com sua própr
 
 ```
 e-commerce-microsservico/
+├── Servico-Notificacao/  # Envia e-mail para cliente após finalizar pedido
 ├── Servico-Produtos/     # Gerenciamento do catálogo de produtos
 └── Servico-Pedidos/      # Gerenciamento e processamento de pedidos
 ```
@@ -47,7 +48,10 @@ Responsável por receber e processar os pedidos realizados pelos clientes. Conso
 | **Java** | Linguagem principal do projeto (100% Java) |
 | **Spring Boot** | Framework para criação dos microsserviços REST |
 | **Spring Web** | Exposição das APIs RESTful |
+| **RabbitMQ** | Comunicação assíncrona |
+| **PostgreSQL** | Persistência dos dados no banco |
 | **Spring Data JPA** | Persistência e mapeamento objeto-relacional |
+| **MailHog** | Simular envio de e-mails |
 | **Maven** | Gerenciamento de dependências e build |
 | **WebClient / RestTemplate** | Comunicação HTTP entre os microsserviços |
 
@@ -59,7 +63,7 @@ Responsável por receber e processar os pedidos realizados pelos clientes. Conso
 
 - Java 17+ instalado
 - Maven 3.8+ instalado
-- Banco de dados configurado (PostgreSQL conforme `application.properties`)
+- Docker instalado
 
 ### Executando os serviços
 
@@ -68,6 +72,10 @@ Clone o repositório:
 ```bash
 git clone https://github.com/marceloflp/e-commerce-microsservico.git
 cd e-commerce-microsservico
+```
+Acesse a pasta do projeto e execute o seguinte comando para executar o docker:
+```bash
+docker compose up -d
 ```
 
 Execute o **Serviço de Produtos** primeiro:
@@ -84,7 +92,12 @@ cd Servico-Pedidos
 mvn spring-boot:run
 ```
 
-> **Importante:** O Serviço de Pedidos depende do Serviço de Produtos estar rodando para que a comunicação entre eles funcione corretamente.
+Por fim, execute o **Serviço de Notificacao**:
+
+```bash
+cd Servico-Notificacao
+mvn spring-boot:run
+```
 
 ---
 
@@ -114,17 +127,18 @@ mvn spring-boot:run
 
 ## 🔗 Comunicação entre os Serviços
 
-O **Serviço de Pedidos** realiza chamadas HTTP síncronas ao **Serviço de Produtos** para obter as informações necessárias durante a criação de um pedido, seguindo o padrão de integração entre microsserviços via API REST.
+O **Serviço de Pedidos** realiza chamadas HTTP síncronas ao **Serviço de Produtos** para obter as informações necessárias durante a criação de um pedido, seguindo o padrão de integração entre microsserviços via API REST. Porém, a principal forma de comunicação entre todos os serviços é através do **RabbitMQ** utilizando comunicação assíncrona.
 
 ```
 Cliente → Serviço de Pedidos ──HTTP──▶ Serviço de Produtos
+Cliente → Serviço de Pedidos ──RabbitMQ──▶ Serviço de Produtos──▶RabbitMQ──▶ Serviço de Notificação
 ```
 
 ---
 
 ## 📁 Estrutura de Cada Serviço
 
-Cada microsserviço segue a estrutura padrão de um projeto Spring Boot:
+Cada microsserviço segue a estrutura padrão de um projeto Spring Boot(com exceção do serviço de notificação):
 
 ```
 Servico-Produtos/
@@ -140,16 +154,9 @@ Servico-Produtos/
         └── resources/
             └── application.properties
 ```
-
 ---
 
 ## 👤 Autor
 
 Desenvolvido por [marceloflp](https://github.com/marceloflp).
 
----
-
-## [PROJETO AINDA EM DESENVOLVIMENTO...]
-### O que falta?
-- Serviço de notificação
-- Deploy no Docker
