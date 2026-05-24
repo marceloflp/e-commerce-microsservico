@@ -8,6 +8,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.servico.pedidos.enums.Status;
 
 public record PedidoRequestDTO(String nomeCliente, @JsonFormat(pattern = "dd/MM/yyyy") LocalDate dataPedido, Status status, 
-		BigDecimal valorTotal, List<ItemPedidoRequestDTO> itens, String emailNotificacao) {
+		BigDecimal valorTotal, List<ItemPedidoSimplificado> itens, String emailNotificacao) {
 
 }
