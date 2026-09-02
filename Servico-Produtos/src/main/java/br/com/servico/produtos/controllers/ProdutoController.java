@@ -20,7 +20,7 @@ import br.com.servico.produtos.entities.Produto;
 import br.com.servico.produtos.services.ProdutoService;
 
 @RestController
-@RequestMapping("/api/produtos")
+@RequestMapping
 public class ProdutoController {
 
 	private final ProdutoService produtoService;

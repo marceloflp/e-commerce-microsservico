@@ -20,7 +20,7 @@ import com.servico.pedidos.entities.Pedido;
 import com.servico.pedidos.services.PedidoService;
 
 @RestController
-@RequestMapping("/api/pedidos")
+@RequestMapping
 public class PedidoController {
 
 	private final PedidoService pedidoService;

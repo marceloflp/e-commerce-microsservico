@@ -20,7 +20,7 @@ import br.com.servico.produtos.entities.Categoria;
 import br.com.servico.produtos.services.CategoriaService;
 
 @RestController
-@RequestMapping("/api/categorias")
+@RequestMapping("/categorias")
 public class CategoriaController {
 
 	private final CategoriaService categoriaService;
