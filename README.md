@@ -39,7 +39,12 @@ Responsável por receber e processar os pedidos realizados pelos clientes. Conso
 - Integração com o Serviço de Produtos
 - Processamento e controle do ciclo de vida dos pedidos
 
----
+### API Gateway
+
+Responsável por centralizar as requisições para os serviços, sem a necessidade de saber em quais portas os serviços estão rodando.
+**Principais responsabilidades**
+- Esconder dos clientes as portas em que os serviços estão rodando
+- Centralizar as requisições para o mesmo endereço (http://localhost:8080)
 
 ### 📧 Serviço de Notificação (`Servico-Notificacao`)
 
@@ -57,6 +62,7 @@ Responsável por enviar e-mail para o cliente após a confirmação da compra do
 | **Java** | Linguagem principal do projeto (100% Java) |
 | **Spring Boot** | Framework para criação dos microsserviços REST |
 | **Spring Web** | Exposição das APIs RESTful |
+| **Spring Cloud Gateway** | Centralizar requisições para os serviços |
 | **RabbitMQ** | Comunicação assíncrona |
 | **PostgreSQL** | Persistência dos dados no banco |
 | **Spring Data JPA** | Persistência e mapeamento objeto-relacional |
@@ -101,10 +107,17 @@ cd Servico-Pedidos
 mvn spring-boot:run
 ```
 
-Por fim, execute o **Serviço de Notificacao**:
+Agora, execute o **Serviço de Notificacao**:
 
 ```bash
 cd Servico-Notificacao
+mvn spring-boot:run
+```
+
+Por fim, execute a **API Gateway**:
+
+```bash
+cd API-Gateway
 mvn spring-boot:run
 ```
 
@@ -147,7 +160,7 @@ Cliente → Serviço de Pedidos ──RabbitMQ──▶ Serviço de Produtos─�
 
 ## 📁 Estrutura de Cada Serviço
 
-Cada microsserviço segue a estrutura padrão de um projeto Spring Boot(com exceção do serviço de notificação):
+Cada microsserviço segue a estrutura padrão de um projeto Spring Boot (com exceção do serviço de notificação e API Gateway):
 
 ```
 Servico-Produtos/
