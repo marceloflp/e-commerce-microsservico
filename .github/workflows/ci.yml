@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+
+  build-produtos:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: Servico-Produtos
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurar Java 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Testar e gerar aplicação
+        run: mvn clean verify
+
+
+  build-pedidos:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: Servico-Pedidos
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurar Java 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Testar e gerar aplicação
+        run: mvn clean verify
