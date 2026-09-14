@@ -10,46 +10,62 @@ on:
       - main
 
 jobs:
+  build-and-test:
 
-  build-produtos:
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurar Java 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Subir infraestrutura
+        run: docker compose up -d
+
+      - name: Verificar containers
+        run: docker compose ps
+
+      - name: Aguardar PostgreSQL
+        run: |
+          until docker exec postgresql-15.7 pg_isready -U postgres; do
+            echo "Aguardando PostgreSQL..."
+            sleep 2
+          done
+
+      - name: Aguardar RabbitMQ
+        run: |
+          until docker exec rabbitmq rabbitmq-diagnostics -q ping; do
+            echo "Aguardando RabbitMQ..."
+            sleep 2
+          done
+
+      - name: Build Serviço de Produtos
         working-directory: Servico-Produtos
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Configurar Java 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-          cache: maven
-
-      - name: Testar e gerar aplicação
         run: mvn clean verify
 
-
-  build-pedidos:
-    runs-on: ubuntu-latest
-
-    defaults:
-      run:
+      - name: Build Serviço de Pedidos
         working-directory: Servico-Pedidos
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Configurar Java 17
-        uses: actions/setup-java@v4
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-          cache: maven
-
-      - name: Testar e gerar aplicação
         run: mvn clean verify
+
+      - name: Build Serviço de Notificação
+        working-directory: Servico-Notificacao
+        run: mvn clean verify
+
+      - name: Build API Gateway
+        working-directory: API-Gateway
+        run: mvn clean verify
+
+      - name: Mostrar logs em caso de erro
+        if: failure()
+        run: docker compose logs
+
+      - name: Derrubar infraestrutura
+        if: always()
+        run: docker compose down -v
